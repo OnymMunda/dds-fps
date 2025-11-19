@@ -4,10 +4,17 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+var screen_center: Vector2
+
+@onready var camera = $CameraSystem/EdgeSpringArm/RearSpringArm/Camera3D
 @onready var model = $Model
 @onready var animation_player = $Model/AnimationPlayer
+@onready var crosshair = $CameraSystem/EdgeSpringArm/RearSpringArm/Camera3D/Sprite2D
+@onready var pistol = $Pistol
 
-
+func _ready() -> void:
+	screen_center = get_viewport().get_visible_rect().size/2
+	crosshair.position = screen_center
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -30,3 +37,6 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+	
+func _process(delta: float) -> void:
+	pistol.rotation.x = camera.global_rotation.x
