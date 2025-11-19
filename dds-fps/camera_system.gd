@@ -1,10 +1,14 @@
 extends Node3D
 
 @export var character: CharacterBody3D
+@export var edge_spring_arm: SpringArm3D
+@export var camera_alignment_speed: float = 0.2
 
 var camera_rotation: Vector2 = Vector2.ZERO
 var mouse_sensitivity: float = 0.001
 var max_y_rotation: float = 1.2
+
+var camera_tween: Tween
 
 
 func _ready() -> void:
@@ -20,6 +24,9 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var mouse_event: Vector2 = event.screen_relative * mouse_sensitivity
 		camera_look(mouse_event)
+		
+	if event.is_action_pressed("swap_camera_alignment"):
+		swap_camera_alignment()
 	
 func camera_look(mouse_movement: Vector2) -> void:
 	camera_rotation += mouse_movement
@@ -31,3 +38,15 @@ func camera_look(mouse_movement: Vector2) -> void:
 	rotate_object_local(Vector3(1,0,0), -camera_rotation.y)
 	
 	camera_rotation.y = clamp(camera_rotation.y, -max_y_rotation, max_y_rotation)
+	
+func swap_camera_alignment() -> void:
+	var new_pos: float = -edge_spring_arm.spring_length
+	set_rear_spring_arm_position(new_pos, camera_alignment_speed)
+	
+func set_rear_spring_arm_position(pos: float, speed: float) -> void:
+	if camera_tween:
+		camera_tween.kill()
+		
+	camera_tween = get_tree().create_tween()
+	camera_tween.tween_property(edge_spring_arm, "spring_length", pos, speed)
+	
