@@ -1,14 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8h0m5snknehs"]
+[gd_scene load_steps=4 format=3 uid="uid://c8h0m5snknehs"]
 
 [ext_resource type="Texture2D" uid="uid://cewfkql2xth16" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://dx45mtcfq0sx6" path="res://player.tscn" id="2_fj7yv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj7yv"]
 albedo_texture = ExtResource("1_f3sb7")
 uv1_triplanar = true
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3sb7"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_fj7yv"]
 
 [node name="World" type="Node3D"]
 
@@ -26,15 +23,4 @@ operation = 2
 size = Vector3(29, 3.86558, 29)
 material = SubResource("StandardMaterial3D_fj7yv")
 
-[node name="Player" type="CharacterBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12084, 0)
-shape = SubResource("CapsuleShape3D_f3sb7")
-
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.923698, 2)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12313, 0)
-mesh = SubResource("CapsuleMesh_fj7yv")
+[node name="Player" parent="." instance=ExtResource("2_fj7yv")]
