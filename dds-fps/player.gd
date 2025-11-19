@@ -7,8 +7,6 @@ const JUMP_VELOCITY = 4.5
 @onready var model = $Model
 @onready var animation_player = $Model/AnimationPlayer
 
-func _ready() -> void:
-	animation_player.play('pose1')
 
 
 func _physics_process(delta: float) -> void:
