@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dx45mtcfq0sx6"]
+[gd_scene load_steps=6 format=3 uid="uid://dx45mtcfq0sx6"]
 
 [ext_resource type="Script" uid="uid://cewg6l5m4yl7q" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dfw3tpxtplj8x" path="res://camera_system.gd" id="2_onrkg"]
@@ -6,6 +6,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3sb7"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_fj7yv"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_onrkg"]
+margin = 0.01
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_4flbx")
@@ -19,9 +22,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12313, 0)
 mesh = SubResource("CapsuleMesh_fj7yv")
 
 [node name="CameraSystem" type="Node3D" parent="." node_paths=PackedStringArray("character")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255313, 1.92796, 0.94622)
 script = ExtResource("2_onrkg")
 character = NodePath("..")
 
-[node name="Camera3D" type="Camera3D" parent="CameraSystem"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.519052, 1.7982, 2.74039)
+[node name="EdgeSpringArm" type="SpringArm3D" parent="CameraSystem"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0931903, -0.077765, -0.179277)
+shape = SubResource("SphereShape3D_onrkg")
+spring_length = 0.5
+
+[node name="RearSpringArm" type="SpringArm3D" parent="CameraSystem/EdgeSpringArm"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+spring_length = 1.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraSystem/EdgeSpringArm/RearSpringArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.458309, 1.50694, 2.25039)
 fov = 73.4335
