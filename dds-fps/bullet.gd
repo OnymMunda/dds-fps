@@ -23,6 +23,9 @@ func _on_area_entered(area: Area3D) -> void:
 func _on_body_entered(body: Node3D) -> void:
 	collide(body)
 	
+	if body.has_method("take_damage"):
+		body.take_damage(1)
+	
 func collide(collider):
 	collision.disabled = true
 	mesh.hide()

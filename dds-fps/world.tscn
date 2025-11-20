@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8h0m5snknehs"]
+[gd_scene load_steps=9 format=3 uid="uid://c8h0m5snknehs"]
 
 [ext_resource type="Texture2D" uid="uid://cewfkql2xth16" path="res://assets/kenney_prototype-textures/PNG/Dark/texture_01.png" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://dx45mtcfq0sx6" path="res://player.tscn" id="2_fj7yv"]
+[ext_resource type="Script" uid="uid://d1lh0tesp7s1x" path="res://enemy_spawner.gd" id="3_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://b2abcofyh5h7k" path="res://enemy.tscn" id="4_036b0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fj7yv"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -45,3 +47,16 @@ size = Vector3(29, 3.86558, 29)
 material = SubResource("StandardMaterial3D_fj7yv")
 
 [node name="Player" parent="." instance=ExtResource("2_fj7yv")]
+
+[node name="EnemySpawner" type="Node3D" parent="."]
+script = ExtResource("3_aqk2v")
+enemy_scene = ExtResource("4_036b0")
+area_size = Vector3(20, 10, 20)
+
+[node name="Timer" type="Timer" parent="EnemySpawner"]
+wait_time = 3.0
+
+[node name="Enemy" parent="." instance=ExtResource("4_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78646, 1.59173, -1.62275)
+
+[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
