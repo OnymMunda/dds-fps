@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dx45mtcfq0sx6"]
+[gd_scene load_steps=8 format=3 uid="uid://dx45mtcfq0sx6"]
 
 [ext_resource type="Script" uid="uid://cewg6l5m4yl7q" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="PackedScene" uid="uid://s2e34d1x8531" path="res://assets/AutomaticPistol.glb" id="2_hqtel"]
 [ext_resource type="Script" uid="uid://dfw3tpxtplj8x" path="res://camera_system.gd" id="2_onrkg"]
+[ext_resource type="Texture2D" uid="uid://cc4265fjhxx1u" path="res://assets/crosshair.png" id="3_i3pqv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3sb7"]
 
@@ -13,6 +15,12 @@ margin = 0.01
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_4flbx")
 
+[node name="Pistol" parent="." instance=ExtResource("2_hqtel")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.634525, 1.17478, 0)
+
+[node name="BulletSpawn" type="Marker3D" parent="Pistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.110153, 4.27357, -9.25257)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12084, 0)
 shape = SubResource("CapsuleShape3D_f3sb7")
@@ -22,7 +30,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12313, 0)
 mesh = SubResource("CapsuleMesh_fj7yv")
 
 [node name="CameraSystem" type="Node3D" parent="." node_paths=PackedStringArray("character", "edge_spring_arm", "rear_spring_arm", "camera")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.255313, 1.92796, 0.94622)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.473188, 1.74033, 0.94622)
 script = ExtResource("2_onrkg")
 character = NodePath("..")
 edge_spring_arm = NodePath("EdgeSpringArm")
@@ -41,3 +49,11 @@ spring_length = 1.5
 [node name="Camera3D" type="Camera3D" parent="CameraSystem/EdgeSpringArm/RearSpringArm"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.458309, 1.50694, 2.25039)
 fov = 73.4335
+
+[node name="Sprite2D" type="Sprite2D" parent="CameraSystem/EdgeSpringArm/RearSpringArm/Camera3D"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_i3pqv")
+
+[node name="Aim" type="RayCast3D" parent="CameraSystem"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.373642, 1.40756, 1.71173)
+target_position = Vector3(0, 0, -200)
